@@ -1,7 +1,7 @@
 {
-  "name": "every",
+  "name": "PageState",
   "version": "1.0.0",
-  "description": "The starting point for projects.",
+  "description": "Classes for interfacing with window location change events.",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/karma/bin/karma start"
