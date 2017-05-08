@@ -18,12 +18,26 @@ var PageStateController = function( options ) {
 
   $(window).on('popstate', function() {
     console.log('Pop State fired!');
-    // self.activePage = window.location.href.replace(window.location.origin, '');
+    self.go();
+  });
+
+  if (document.readyState === 'complete') {
+    console.log('Document ready.');
+    self.go();
+  }
+  else {
+    $(document).ready(function() {
+      console.log('Document ready.');
+      self.go();
+    });
+  }
+
+  this.go = function() {
     self.activePage = window.location.pathname + window.location.hash
     if (self.activePageController) {
       self.activePageController.go(self.activePage)
     }
-  });
+  }
 
   return this;
 }

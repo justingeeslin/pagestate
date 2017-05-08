@@ -16,6 +16,13 @@ describe('PageStateController', function() {
 			expect(thePageStateController instanceof PageStateController).toBe(true)
     });
 
+		it('should keep an up-to-date active page on document ready', function(done) {
+			$(document).ready(function() {
+				expect(thePageStateController.activePage.length > 0).toBe(true);
+				done()
+			});
+    });
+
 		it('should keep an up-to-date active page by tracking location update', function(done) {
 			var newPage = "#justin"
 			window.location = newPage;
