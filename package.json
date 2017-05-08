@@ -1,5 +1,5 @@
 {
-  "name": "PageState",
+  "name": "pagestate",
   "version": "1.0.0",
   "description": "Classes for interfacing with window location change events.",
   "main": "index.js",
