@@ -16,6 +16,13 @@ var PageStateController = function( options ) {
 
   this.targetEl = $(this.target);
 
+  this.go = function() {
+    self.activePage = window.location.pathname + window.location.hash
+    if (self.activePageController) {
+      self.activePageController.go(self.activePage)
+    }
+  }
+
   $(window).on('popstate', function() {
     console.log('Pop State fired!');
     self.go();
@@ -30,13 +37,6 @@ var PageStateController = function( options ) {
       console.log('Document ready.');
       self.go();
     });
-  }
-
-  this.go = function() {
-    self.activePage = window.location.pathname + window.location.hash
-    if (self.activePageController) {
-      self.activePageController.go(self.activePage)
-    }
   }
 
   return this;
