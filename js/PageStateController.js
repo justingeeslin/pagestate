@@ -8,7 +8,10 @@ var PageStateController = function( options ) {
     //
     activePageController: undefined,
     // A string which is the location minus the domain and protocol. Only path and hash.
-    activePage: ''
+    activePage: '',
+    preprocessActivePage: function(location) {
+      return location;
+    }
   }
 
   self = extend(self, defaults)
@@ -17,7 +20,7 @@ var PageStateController = function( options ) {
   this.targetEl = $(this.target);
 
   this.go = function() {
-    self.activePage = window.location.pathname + window.location.hash
+    self.activePage = self.preprocessActivePage(window.location.pathname + window.location.hash);
     if (self.activePageController) {
       self.activePageController.go(self.activePage)
     }

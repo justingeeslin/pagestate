@@ -46,6 +46,17 @@ describe('PageStateController', function() {
 			expect(thePageController.pageName.indexOf(newPage) > -1).toBe(true)
     });
 
+		it('should be able to preprocess the active page using only the hash if you want', function() {
+			var newPage = "bieber"+Math.round(Math.random()*100)
+			thePageStateController.preprocessActivePage = function(activePage) {
+				activePage = window.location.hash.replace('#!', '').replace('#', '')
+				console.log('Preprocessing active page:' , activePage)
+				return activePage;
+			}
+			window.location.hash = newPage;
+			expect(thePageStateController.activePage).toBe(newPage);
+    });
+
 		afterAll(function() {
 
 		});
