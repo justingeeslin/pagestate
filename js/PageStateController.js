@@ -11,11 +11,18 @@ var PageStateController = function( options ) {
     activePage: '',
     preprocessActivePage: function(location) {
       return location;
-    }
+    },
+    debug: false
   }
 
   self = extend(self, defaults)
   self = extend(self, options)
+
+  this.log = function(msg) {
+		if (self.debug) {
+			console.log(msg);
+		}
+	}
 
   this.targetEl = $(this.target);
 
@@ -27,17 +34,17 @@ var PageStateController = function( options ) {
   }
 
   $(window).on('popstate', function() {
-    console.log('Pop State fired!');
+    self.log('Pop State fired!');
     self.go();
   });
 
   if (document.readyState === 'complete') {
-    console.log('Document ready.');
+    self.log('Document ready.');
     self.go();
   }
   else {
     $(document).ready(function() {
-      console.log('Document ready.');
+      self.log('Document ready.');
       self.go();
     });
   }
