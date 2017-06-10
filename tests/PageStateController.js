@@ -11,8 +11,15 @@ describe('PageStateController', function() {
 			// Activate page controller
 			thePageController = new PageController();
 			thePageStateController = new PageStateController({
-				activePageController: thePageController
+				activePageController: thePageController,
+				eventName: 'stateChange'
 			});
+
+			didStateChangeEvent = false;
+			$(document.body).on(thePageStateController.eventName, function(e, oldState, newState) {
+				didStateChangeEvent = true;
+			})
+
 			expect(thePageStateController instanceof PageStateController).toBe(true)
     });
 
@@ -44,6 +51,10 @@ describe('PageStateController', function() {
 		it('should activate the active page controller with the latest page name', function() {
 			var newPage = "#justin"
 			expect(thePageController.pageName.indexOf(newPage) > -1).toBe(true)
+    });
+
+		it('should trigger the event', function() {
+			expect(didStateChangeEvent).toBe(true)
     });
 
 		it('should be able to preprocess the active page using only the hash if you want', function() {

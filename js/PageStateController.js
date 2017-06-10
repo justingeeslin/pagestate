@@ -12,6 +12,8 @@ var PageStateController = function( options ) {
     preprocessActivePage: function(location) {
       return location;
     },
+    // Define an event name for an event to trigger when this component goes.
+    eventName: undefined,
     debug: false
   }
 
@@ -27,9 +29,14 @@ var PageStateController = function( options ) {
   this.targetEl = $(this.target);
 
   this.go = function() {
+    var oldState = self.activePage;
     self.activePage = self.preprocessActivePage(window.location.pathname + window.location.hash);
+    var newState = self.activePage;
     if (self.activePageController) {
       self.activePageController.go(self.activePage)
+    }
+    if (self.eventName) {
+      $(document.body).trigger(self.eventName, oldState, newState);
     }
   }
 
