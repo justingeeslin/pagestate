@@ -71,8 +71,8 @@ describe('PageStateController', function() {
 					"home" : function() {
 						$(document.body).empty().append('<h1>Home</h1>');
 					},
-					"contactus" : function() {
-						$(document.body).empty().append('<h1>Contact Us</h1>');
+					"contactus/:mode:" : function(mode) {
+						$(document.body).empty().append('<h1>Contact Us by ' + mode + '</h1>');
 					}
 				}
 			});

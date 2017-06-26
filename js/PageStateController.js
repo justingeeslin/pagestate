@@ -44,12 +44,8 @@ var PageStateController = function( options ) {
     }
 
     // Perform Routes Actions.
-    if (typeof self.routes[self.state] === "function") {
-      crossroads.parse(self.state);
-    }
-    else {
-      console.warn('No actions for the state', self.state, self.routes[self.state]);
-    }
+    crossroads.parse(self.state);
+
 
     if (self.eventName) {
       $(document.body).trigger(self.eventName, [oldState, newState] );
