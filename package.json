@@ -9,6 +9,7 @@
   "author": "Justin Geeslin",
   "license": "ISC",
   "dependencies": {
+    "crossroads": "^0.12.2",
     "extend": "git+https://github.com/justingeeslin/extend.git"
   },
   "devDependencies": {

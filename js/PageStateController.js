@@ -1,3 +1,4 @@
+const crossroads = require('crossroads');
 const extend = require('extend');
 
 var PageStateController = function( options ) {
@@ -26,6 +27,12 @@ var PageStateController = function( options ) {
 
   this.targetEl = $(this.target);
 
+  // Add the routes to crossroads.
+  for(var r in this.routes) {
+    console.log('Added route for: ', r);
+    crossroads.addRoute(r, this.routes[r]);
+  }
+
   this.go = function() {;
     var oldState = self.state;
     self.state = self.preprocessState(window.location.pathname + window.location.hash);
@@ -38,7 +45,7 @@ var PageStateController = function( options ) {
 
     // Perform Routes Actions.
     if (typeof self.routes[self.state] === "function") {
-      self.routes[self.state]();
+      crossroads.parse(self.state);
     }
     else {
       console.warn('No actions for the state', self.state, self.routes[self.state]);
