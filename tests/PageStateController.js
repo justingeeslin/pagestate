@@ -1,5 +1,4 @@
 const PageStateController = require('../js/PageStateController.js')
-const PageController = require('../js/PageController.js')
 
 describe('PageStateController', function() {
 
@@ -8,8 +7,6 @@ describe('PageStateController', function() {
 		});
 
 		it('should construct', function() {
-			// Activate page controller
-			thePageController = new PageController();
 			thePageStateController = new PageStateController({
 				eventName: 'stateChange'
 			});
@@ -46,7 +43,6 @@ describe('PageStateController', function() {
 				done()
 			}, 10);
     });
-
 
 		it('should trigger the event', function() {
 			expect(didStateChangeEvent).toBe(true)
