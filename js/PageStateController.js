@@ -31,12 +31,23 @@ var PageStateController = function( options ) {
     self.state = self.preprocessState(window.location.pathname + window.location.hash);
     var newState = self.state;
 
+    if (self.state == '') {
+      console.log('Page State Controller going with an empty state. Exiting..');
+      return;
+    }
+
     // Perform Routes Actions.
     try {
-      routes[self.state]()
+      self.routes[self.state]()
     }
     catch(e) {
-      console.warn('No actions for the state')
+      if (typeof self.routes[self.state] !== "function") {
+        console.warn('No actions for the state', self.state, self.routes[self.state]);
+      }
+      else {
+        console.warn(e)
+      }
+
     }
 
     if (self.eventName) {
