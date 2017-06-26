@@ -11,7 +11,6 @@ describe('PageStateController', function() {
 			// Activate page controller
 			thePageController = new PageController();
 			thePageStateController = new PageStateController({
-				activePageController: thePageController,
 				eventName: 'stateChange'
 			});
 
@@ -25,7 +24,7 @@ describe('PageStateController', function() {
 
 		it('should keep an up-to-date active page on document ready', function(done) {
 			$(document).ready(function() {
-				expect(thePageStateController.activePage.length > 0).toBe(true);
+				expect(thePageStateController.state.length > 0).toBe(true);
 				done()
 			});
     });
@@ -34,7 +33,7 @@ describe('PageStateController', function() {
 			var newPage = "#justin"
 			window.location = newPage;
 			window.setTimeout(function () {
-				expect(thePageStateController.activePage.indexOf(newPage) > -1).toBe(true);
+				expect(thePageStateController.state.indexOf(newPage) > -1).toBe(true);
 				done()
 			}, 10);
     });
@@ -43,15 +42,11 @@ describe('PageStateController', function() {
 			var newPage = "#justin"
 			history.pushState({}, "", newPage);
 			window.setTimeout(function () {
-				expect(thePageStateController.activePage.indexOf(newPage) > -1).toBe(true);
+				expect(thePageStateController.state.indexOf(newPage) > -1).toBe(true);
 				done()
 			}, 10);
     });
 
-		it('should activate the active page controller with the latest page name', function() {
-			var newPage = "#justin"
-			expect(thePageController.pageName.indexOf(newPage) > -1).toBe(true)
-    });
 
 		it('should trigger the event', function() {
 			expect(didStateChangeEvent).toBe(true)
@@ -59,13 +54,13 @@ describe('PageStateController', function() {
 
 		it('should be able to preprocess the active page using only the hash if you want', function() {
 			var newPage = "bieber"+Math.round(Math.random()*100)
-			thePageStateController.preprocessActivePage = function(activePage) {
-				activePage = window.location.hash.replace('#!', '').replace('#', '')
-				console.log('Preprocessing active page:' , activePage)
-				return activePage;
+			thePageStateController.preprocessState = function(state) {
+				state = window.location.hash.replace('#!', '').replace('#', '')
+				console.log('Preprocessing active page:' , state)
+				return state;
 			}
 			window.location.hash = newPage;
-			expect(thePageStateController.activePage).toBe(newPage);
+			expect(thePageStateController.state).toBe(newPage);
     });
 
 		afterAll(function() {

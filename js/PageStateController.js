@@ -5,11 +5,9 @@ var PageStateController = function( options ) {
 
   var defaults = {
     target: 'body',
-    //
-    activePageController: undefined,
-    // A string which is the location minus the domain and protocol. Only path and hash.
-    activePage: '',
-    preprocessActivePage: function(location) {
+    state: '',
+    routes: {},
+    preprocessState: function(location) {
       return location;
     },
     // Define an event name for an event to trigger when this component goes.
@@ -28,13 +26,19 @@ var PageStateController = function( options ) {
 
   this.targetEl = $(this.target);
 
-  this.go = function() {
-    var oldState = self.activePage;
-    self.activePage = self.preprocessActivePage(window.location.pathname + window.location.hash);
-    var newState = self.activePage;
-    if (self.activePageController) {
-      self.activePageController.go(self.activePage)
+  this.go = function() {;
+    var oldState = self.state;
+    self.state = self.preprocessState(window.location.pathname + window.location.hash);
+    var newState = self.state;
+
+    // Perform Routes Actions.
+    try {
+      routes[self.state]()
     }
+    catch(e) {
+      console.warn('No actions for the state')
+    }
+
     if (self.eventName) {
       $(document.body).trigger(self.eventName, [oldState, newState] );
     }
