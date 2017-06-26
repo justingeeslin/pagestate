@@ -59,6 +59,32 @@ describe('PageStateController', function() {
 			expect(thePageStateController.state).toBe(newPage);
     });
 
+		it('should call the routes functions', function(done) {
+			thePageStateController = new PageStateController({
+				eventName: 'stateChange',
+				preprocessState : function(state) {
+					state = window.location.hash.replace('#!', '').replace('#', '')
+					console.log('Preprocessing active state:' , state)
+					return state;
+				},
+				routes: {
+					"home" : function() {
+						$(document.body).empty().append('<h1>Home</h1>');
+					},
+					"contactus" : function() {
+						$(document.body).empty().append('<h1>Contact Us</h1>');
+					}
+				}
+			});
+
+			window.location.hash = 'home';
+
+			window.setTimeout(function() {
+				expect($('h1').text()).toBe('Home');
+				done()
+			}, 50)
+    });
+
 		afterAll(function() {
 
 		});
