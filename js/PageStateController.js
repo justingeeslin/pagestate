@@ -37,17 +37,11 @@ var PageStateController = function( options ) {
     }
 
     // Perform Routes Actions.
-    try {
-      self.routes[self.state]()
+    if (typeof self.routes[self.state] === "function") {
+      self.routes[self.state]();
     }
-    catch(e) {
-      if (typeof self.routes[self.state] !== "function") {
-        console.warn('No actions for the state', self.state, self.routes[self.state]);
-      }
-      else {
-        console.warn(e)
-      }
-
+    else {
+      console.warn('No actions for the state', self.state, self.routes[self.state]);
     }
 
     if (self.eventName) {
