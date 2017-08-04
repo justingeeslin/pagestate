@@ -29,7 +29,7 @@ var PageStateController = function( options ) {
 
   // Add the routes to crossroads.
   for(var r in this.routes) {
-    console.log('Added route for: ', r);
+    this.log('Added route for: ', r);
     crossroads.addRoute(r, this.routes[r]);
   }
 
@@ -39,7 +39,7 @@ var PageStateController = function( options ) {
     var newState = self.state;
 
     if (self.state == '') {
-      console.log('Page State Controller going with an empty state. Exiting..');
+      self.log('Page State Controller going with an empty state. Exiting..');
       return;
     }
 
