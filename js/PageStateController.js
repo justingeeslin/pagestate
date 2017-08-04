@@ -47,7 +47,7 @@ var PageStateController = function( options ) {
     crossroads.parse(self.state);
 
 
-    if (self.eventName) {
+    if (typeof self.eventName !== "undefined") {
       $(document.body).trigger(self.eventName, [oldState, newState] );
     }
   }
