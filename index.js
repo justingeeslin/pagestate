@@ -1,2 +1,2 @@
 const PageStateController = require('./js/PageStateController.js')
-const PageController = require('./js/PageController.js')
+const Page = require('./js/Page.js')
