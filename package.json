@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "crossroads": "^0.12.2",
-    "extend": "git+https://github.com/justingeeslin/extend.git"
+    "extend": "git+https://github.com/justingeeslin/extend.git",
+    "sensible-component": "git+https://github.com/justingeeslin/sensible-component.git"
   },
   "devDependencies": {
     "browserify": "^14.1.0",
