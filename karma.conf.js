@@ -29,6 +29,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       'tests/PageStateController.js': ['browserify'],
+      'tests/Page.js': ['browserify'],
     },
 
     browserify: {
