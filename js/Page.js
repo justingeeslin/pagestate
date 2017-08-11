@@ -47,11 +47,43 @@ var Page = function( options ) {
 
   this.stateChange = function(oldState, newState) {
     self.log('New state: ' + newState)
-    $(this.target).trigger('postload.page');
+    $(this.target).trigger('postload.' + self.eventNamespace);
   }
 
+  // A algorithm for selecting elements using a string in the fragment. Select the p of type of a number. Select the id if not.
+	var fragmentFind = function(fragment) {
+		var selector, jumpTarget;
+		if (Number.isInteger(parseInt(fragment) )) {
+			self.log('Fragment is a number..')
+			selector = 'p:eq(' + fragment + ')'
+			jumpTarget = self.target.find(selector)
+		}
+		else {
+			selector = '#' + fragment;
+			jumpTarget = self.target.find(selector);
+			// If wrapped in a glow-span, glow it, the parent, instead.
+			var jumpTargetParent = jumpTarget.parent();
+			if (jumpTargetParent.hasClass('glow-span')) {
+				jumpTarget = jumpTargetParent;
+			}
+		}
+
+    var isJumpTargetFound = jumpTarget.length > 0;
+    var isTargetinDOM = typeof jumpTarget.offset !== "undefined";
+    if (!isJumpTargetFound) {
+      console.warn('Attempting to scroll to a element that does not exist. ', selector);
+      return false;
+    }
+    if (!isTargetinDOM) {
+      console.warn('Scrolling to a element that isnt in the DOM. Exiting..', jumpTarget);
+      return false;
+    }
+
+		return jumpTarget;
+	}
+
   // Process the fragment on the state
-  $(this.target).on('postload.page', function() {
+  $(this.target).on('postload.' + this.eventNamespace, function() {
     self.fragment = self.state.split(self.fragmentCharacter)[1]
 
     if (typeof self.fragment === "undefined" || self.fragment.length <= 0) {
@@ -59,11 +91,10 @@ var Page = function( options ) {
       return;
     }
 
-    var scrollTarget = self.target.find('#' + self.fragment);
+    var scrollTarget = fragmentFind(self.fragment);
 
-    if (typeof scrollTarget.offset === "undefined") {
-			console.warn('Scrolling to a element that isnt in the DOM. Exiting..', scrollTarget);
-			return false;
+    if (scrollTarget == false) {
+			return;
 		}
 
     var distanceToScroll = scrollTarget.offset().top;
@@ -71,7 +102,7 @@ var Page = function( options ) {
     $('html, body').scrollTop(distanceToScroll);
   });
 
-  $(this.target).trigger('postload.page');
+  $(this.target).trigger('postload.' + this.eventNamespace);
 
   return this;
 }
