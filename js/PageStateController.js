@@ -27,6 +27,9 @@ var PageStateController = function( options ) {
 
   this.targetEl = $(this.target);
 
+  // Cast "undefined" strings as literal undefined
+  crossroads.shouldTypecast = true
+
   // Add the routes to crossroads.
   for(var r in this.routes) {
     this.log('Added route for: ', r);
