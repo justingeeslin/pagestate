@@ -29,6 +29,8 @@ var PageStateController = function( options ) {
 
   // Cast "undefined" strings as literal undefined
   crossroads.shouldTypecast = true
+  // Allow the same route to run twice
+  crossroads.ignoreState = true
 
   // Add the routes to crossroads.
   for(var r in this.routes) {
