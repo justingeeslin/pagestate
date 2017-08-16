@@ -49,6 +49,7 @@ var PageStateController = function( options ) {
     }
 
     // Perform Routes Actions.
+    self.log('Parsing Route: ' + self.state)
     crossroads.parse(self.state);
 
 
