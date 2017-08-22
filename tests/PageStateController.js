@@ -27,6 +27,26 @@ describe('PageStateController', function() {
     });
 
 		it('should keep an up-to-date active page by tracking location update', function(done) {
+
+			var stateUpdateCalls = 0
+			var countCalls = function() {
+				stateUpdateCalls++;
+			}
+			$(document.body).on(thePageStateController.eventName, countCalls)
+
+			var newPage = "#dustin"
+			window.location = newPage;
+			window.location = newPage;
+
+			window.setTimeout(function () {
+				expect(stateUpdateCalls).toBe(2);
+				done()
+			}, 10);
+
+
+    });
+
+		it('should keep an up-to-date active page by tracking location update (even when the location is updated to be the same)', function(done) {
 			var newPage = "#justin"
 			window.location = newPage;
 			window.setTimeout(function () {
