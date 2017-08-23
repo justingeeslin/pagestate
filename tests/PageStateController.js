@@ -68,7 +68,7 @@ describe('PageStateController', function() {
 			expect(didStateChangeEvent).toBe(true)
     });
 
-		it('should be able to preprocess the active page using only the hash if you want', function() {
+		it('should be able to preprocess the active page using only the hash if you want', function(done) {
 			var newPage = "bieber"+Math.round(Math.random()*100)
 			thePageStateController.preprocessState = function(state) {
 				state = window.location.hash.replace('#!', '').replace('#', '')
@@ -76,7 +76,11 @@ describe('PageStateController', function() {
 				return state;
 			}
 			window.location.hash = newPage;
-			expect(thePageStateController.state).toBe(newPage);
+			window.setTimeout(function() {
+				expect(thePageStateController.state).toBe(newPage);
+				done()
+			}, 1000)
+
     });
 
 		it('should call the routes functions', function(done) {
