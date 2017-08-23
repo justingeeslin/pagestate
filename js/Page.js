@@ -52,12 +52,16 @@ var Page = function( options ) {
     $(this.target).trigger('postload.' + self.eventNamespace);
   }
 
+  function isInteger(value) {
+    return typeof value === "number" && isFinite(value)
+  }
+
   // A algorithm for selecting elements using a string in the fragment. Select the p of type of a number. Select the id if not.
 	var fragmentFind = function(fragment) {
 		var selector, jumpTarget;
-		if (Number.isInteger(parseInt(fragment) )) {
+		if ( isInteger(parseInt(fragment)) ) {
 			self.log('Fragment is a number..')
-			selector = 'p:eq(' + fragment + ')'
+			selector = 'p:eq(' + parseInt(fragment) + ')'
 			jumpTarget = self.target.find(selector)
 		}
 		else {
