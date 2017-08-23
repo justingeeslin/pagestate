@@ -27,15 +27,16 @@ var PageStateController = function( options ) {
 
   this.targetEl = $(this.target);
 
+  var router = crossroads.create();
   // Cast "undefined" strings as literal undefined
-  crossroads.shouldTypecast = true
+  router.shouldTypecast = true
   // Allow the same route to run twice
-  crossroads.ignoreState = true
+  router.ignoreState = true
 
   // Add the routes to crossroads.
   for(var r in this.routes) {
     this.log('Added route for: ', r);
-    crossroads.addRoute(r, this.routes[r]);
+    router.addRoute(r, this.routes[r]);
   }
 
   this.go = function() {;
@@ -50,7 +51,7 @@ var PageStateController = function( options ) {
 
     // Perform Routes Actions.
     self.log('Parsing Route: ' + self.state)
-    crossroads.parse(self.state);
+    router.parse(self.state);
 
 
     if (typeof self.eventName !== "undefined") {
