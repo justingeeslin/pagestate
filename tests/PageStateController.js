@@ -8,7 +8,8 @@ describe('PageStateController', function() {
 
 		it('should construct', function() {
 			thePageStateController = new PageStateController({
-				eventName: 'stateChange'
+				eventName: 'stateChange',
+				debug: true
 			});
 
 			didStateChangeEvent = false;
