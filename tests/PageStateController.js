@@ -26,7 +26,7 @@ describe('PageStateController', function() {
 			});
     });
 
-		it('should keep an up-to-date active page by tracking location update', function(done) {
+		it('should keep an up-to-date active page by tracking location update (even when the location is updated to be the same)', function(done) {
 
 			var stateUpdateCalls = 0
 			var countCalls = function() {
@@ -46,7 +46,7 @@ describe('PageStateController', function() {
 
     });
 
-		it('should keep an up-to-date active page by tracking location update (even when the location is updated to be the same)', function(done) {
+		it('should keep an up-to-date active page by tracking location update', function(done) {
 			var newPage = "#justin"
 			window.location = newPage;
 			window.setTimeout(function () {
