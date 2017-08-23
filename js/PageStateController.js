@@ -59,10 +59,18 @@ var PageStateController = function( options ) {
     }
   }
 
-  $(window).on('popstate', function() {
-    self.log('Pop State fired!');
-    self.go();
-  });
+  if (/MSIE (\d+\.\d+);/.test(navigator.userAgent) || navigator.userAgent.indexOf("Trident/") > -1 ) {
+    $(window).on('hashchange', function() {
+      self.log('Hash Change fired!');
+      self.go();
+    });
+  }
+  else {
+    $(window).on('popstate', function() {
+      self.log('Pop State fired!');
+      self.go();
+    });
+  }
 
   if (document.readyState === 'complete') {
     self.log('Document ready.');
