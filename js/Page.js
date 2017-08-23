@@ -16,7 +16,8 @@ var Page = function( options ) {
       document.title = title + this.suffix;
       return true
     },
-    enumerable: true
+    enumerable: true,
+    configurable: true
   });
 
   Object.defineProperty(this, 'suffix', {
@@ -26,7 +27,8 @@ var Page = function( options ) {
       document.title = this.title + suffix;
       return true
     },
-    enumerable: true
+    enumerable: true,
+    configurable: true
   });
 
   var defaults = {
