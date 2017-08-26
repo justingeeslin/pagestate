@@ -54,9 +54,10 @@ module.exports = function(config) {
       ]
     },
 
+    hostname: '192.168.2.27',
 
     // web server port
-    port: 9876,
+    port: 9875,
 
     // enable / disable colors in the output (reporters and logs)
     colors: true,
@@ -83,8 +84,24 @@ module.exports = function(config) {
   		Chrome_travis_ci: {
   				base: 'Chrome',
   				flags: ['--no-sandbox ']
-  		}
+  		},
+      // Made on a Mac. Remote IE boxes available
+      'IE11': {
+        base: 'WebDriver',
+        config: {
+          hostname: '192.168.2.25',
+          port: 4444
+        },
+        browserName: 'internet explorer',
+        platform: 'Windows 8',
+        version: '10',
+        // 'x-ua-compatible': 'IE=EmulateIE7',
+        name: 'Karma',
+        pseudoActivityInterval: 30000
+      },
     },
+
+
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
