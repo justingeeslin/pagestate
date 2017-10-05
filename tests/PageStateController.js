@@ -84,7 +84,9 @@ describe('PageStateController', function() {
 
     });
 
-		it('should call the routes functions', function(done) {
+		it('should call the routes functions on location change', function(done) {
+			var target = $('<div id="content"></div>');
+			$(document.body).append(target);
 			thePageStateController = new PageStateController({
 				eventName: 'stateChange',
 				preprocessState : function(state) {
@@ -94,10 +96,10 @@ describe('PageStateController', function() {
 				},
 				routes: {
 					"home" : function() {
-						$(document.body).empty().append('<h1>Home</h1>');
+						target.append('<h1>Home</h1>');
 					},
 					"contactus/:mode:" : function(mode) {
-						$(document.body).empty().append('<h1>Contact Us by ' + mode + '</h1>');
+						target.append('<h1>Contact Us by ' + mode + '</h1>');
 					}
 				}
 			});
@@ -105,9 +107,47 @@ describe('PageStateController', function() {
 			window.location.hash = 'home';
 
 			window.setTimeout(function() {
-				expect($('h1').text()).toBe('Home');
+				expect(target.text()).toBe('Home');
 				done()
 			}, 50)
+    });
+
+		it('should call the routes functions on go', function(done) {
+			var target = $('<div id="content2"></div>');
+			$(document.body).append(target);
+			thePageStateController = new PageStateController({
+				routes: {
+					"park" : function() {
+						target.append('<h1>Alone</h1>');
+					},
+					"contactus/:mode:" : function(mode) {
+						target.append('<h1>Contact Us by ' + mode + '</h1>');
+					}
+				}
+			});
+
+			thePageStateController.go('park');
+
+			window.setTimeout(function() {
+				expect(target.text()).toBe('Alone');
+				done()
+			}, 50)
+    });
+
+		it('should not keep an up-to-date active page when hash watching is disabled', function(done) {
+			var target = $('<div id="content2"></div>');
+			$(document.body).append(target);
+			var aPageStateController = new PageStateController({
+				shouldWatchLocation: false,
+				debug: true
+			});
+
+			var newPage = "#justin"
+			window.location = newPage;
+			window.setTimeout(function () {
+				expect(aPageStateController.state.indexOf(newPage)).toBe(-1);
+				done()
+			}, 10);
     });
 
 		afterAll(function() {

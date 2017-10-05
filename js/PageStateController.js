@@ -8,6 +8,7 @@ var PageStateController = function( options ) {
     target: 'body',
     state: '',
     routes: {},
+    shouldWatchLocation: true,
     preprocessState: function(location) {
       return location;
     },
@@ -39,9 +40,9 @@ var PageStateController = function( options ) {
     router.addRoute(r, this.routes[r]);
   }
 
-  this.go = function() {;
+  this.go = function(state) {;
     var oldState = self.state;
-    self.state = self.preprocessState(window.location.pathname + window.location.hash);
+    self.state = self.preprocessState(state);
     var newState = self.state;
 
     if (self.state == '') {
@@ -59,28 +60,34 @@ var PageStateController = function( options ) {
     }
   }
 
-  if (/MSIE (\d+\.\d+);/.test(navigator.userAgent) || navigator.userAgent.indexOf("Trident/") > -1 ) {
-    $(window).on('hashchange', function() {
-      self.log('Hash Change fired!');
-      self.go();
-    });
-  }
-  else {
-    $(window).on('popstate', function() {
-      self.log('Pop State fired!');
-      self.go();
-    });
-  }
+  if (this.shouldWatchLocation) {
+    var state = function() {
+      return window.location.pathname + window.location.hash
+    };
 
-  if (document.readyState === 'complete') {
-    self.log('Document ready.');
-    self.go();
-  }
-  else {
-    $(document).ready(function() {
+    if (/MSIE (\d+\.\d+);/.test(navigator.userAgent) || navigator.userAgent.indexOf("Trident/") > -1 ) {
+      $(window).on('hashchange', function() {
+        self.log('Hash Change fired!');
+        self.go(state());
+      });
+    }
+    else {
+      $(window).on('popstate', function() {
+        self.log('Pop State fired!');
+        self.go(state());
+      });
+    }
+
+    if (document.readyState === 'complete') {
       self.log('Document ready.');
-      self.go();
-    });
+      self.go(state());
+    }
+    else {
+      $(document).ready(function() {
+        self.log('Document ready.');
+        self.go(state());
+      });
+    }
   }
 
   return this;
