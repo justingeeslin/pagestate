@@ -150,6 +150,31 @@ describe('PageStateController', function() {
 			}, 10);
     });
 
+		it('should call the routes functions on go with a callback', function(done) {
+			var target = $('<div id="content4"></div>');
+			$(document.body).append(target);
+			var isCallbackCalled = false;
+			thePageStateController = new PageStateController({
+				routes: {
+					"park" : function(cb) {
+						target.append('<h1>Apple</h1>');
+						cb()
+					},
+					"contactus/:mode:" : function(mode) {
+						target.append('<h1>Contact Us by ' + mode + '</h1>');
+					}
+				}
+			});
+
+			thePageStateController.go('park', function() {
+				isCallbackCalled = true;
+				expect(target.text()).toBe('Apple');
+				expect(isCallbackCalled).toBe(true);
+				done()
+			});
+
+    });
+
 		afterAll(function() {
 
 		});
