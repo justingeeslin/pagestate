@@ -40,7 +40,7 @@ var PageStateController = function( options ) {
     router.addRoute(r, this.routes[r]);
   }
 
-  this.go = function(state, cb) {;
+  this.go = function(state, options) {;
     var oldState = self.state;
     self.state = self.preprocessState(state);
     var newState = self.state;
@@ -52,7 +52,7 @@ var PageStateController = function( options ) {
 
     // Perform Routes Actions.
     self.log('Parsing Route: ' + self.state)
-    router.parse(self.state, [cb]);
+    router.parse(self.state, [options]);
 
 
     if (typeof self.eventName !== "undefined") {

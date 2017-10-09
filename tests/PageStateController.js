@@ -156,9 +156,9 @@ describe('PageStateController', function() {
 			var isCallbackCalled = false;
 			thePageStateController = new PageStateController({
 				routes: {
-					"park" : function(cb) {
+					"park" : function(options) {
 						target.append('<h1>Apple</h1>');
-						cb()
+						options.postload()
 					},
 					"contactus/:mode:" : function(mode) {
 						target.append('<h1>Contact Us by ' + mode + '</h1>');
@@ -166,11 +166,13 @@ describe('PageStateController', function() {
 				}
 			});
 
-			thePageStateController.go('park', function() {
-				isCallbackCalled = true;
-				expect(target.text()).toBe('Apple');
-				expect(isCallbackCalled).toBe(true);
-				done()
+			thePageStateController.go('park', {
+				postload: function() {
+					isCallbackCalled = true;
+					expect(target.text()).toBe('Apple');
+					expect(isCallbackCalled).toBe(true);
+					done()
+				}
 			});
 
     });
